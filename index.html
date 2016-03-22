@@ -34,22 +34,8 @@
 
     <div class="container">
       <!-- Example row of columns -->
-      <div class="row">
-        <div class="col-md-4">
-          <h2>Heading</h2>
-          <img src="http://163.29.39.183/uploads/images/medium/2a2785be-2cce-4e37-86d0-742e75f9ace3.jpg"class="img-thumbnail">
-          <p>Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui. </p>
-          <p><a class="btn btn-default" href="#" role="button">View details &raquo;</a></p>
-        </div>
-        <div class="col-md-4">
-          <h2>Heading</h2>
-          <p>Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui. </p>
-          <p><a class="btn btn-default" href="#" role="button">View details &raquo;</a></p>
-       </div>
-      </div>
-
+      <div id="content" class="row"></div>
       <hr>
-
       <footer>
         <p>&copy; 2016 NCCU MIS</p>
       </footer>
@@ -58,11 +44,26 @@
   </body>
   <script type="text/javascript">
     $(document).ready(function() {
-      getData(function(err, result) {
+      getData(function(err, data) {
         if(err) {
           console.log(err);
         } else {
-          console.log(result);
+          console.log(data);
+          var animalList = data.result.results;
+          var HTMLanimalList = animalList.map(function(animal) {
+            var HTMLString = "<div class='col-md-4'><h2>"+animal.Name+"</h2><img class='img-thumbnail' src='"+animal.ImageName+"'><p><ul class='list-group'>";
+            var items = "";
+            for (var key in animal) {
+              if(key!="_id" && key!="ImageName") {
+                items=items+"<li class='list-group-item'>"+key+":"+animal[key]+"</li>";
+              }
+            }
+            var HTMLString = HTMLString+items+"</ul></p><div>";
+            return HTMLString;
+          });
+          HTMLanimalList.forEach(function(html) {
+            $(html).appendTo("#content");
+          });
         }
       });
     });
