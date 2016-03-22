@@ -48,7 +48,6 @@
         if(err) {
           console.log(err);
         } else {
-          console.log(data);
           var animalList = data.result.results;
           var HTMLanimalList = animalList.map(function(animal) {
             var HTMLString = "<div class='col-md-4'><h2>"+animal.Name+"</h2><img class='img-thumbnail' src='"+animal.ImageName+"'><p><ul class='list-group'>";
